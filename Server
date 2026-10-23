@@ -1,0 +1,46 @@
+local Rayfield = loadstring(game:HttpGet(
+    "https://sirius.menu/rayfield"
+))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Server Hub",
+    LoadingTitle = "Server Hub",
+    LoadingSubtitle = "Server Manager",
+    ConfigurationSaving = {
+        Enabled = false
+    }
+})
+
+local Tab = Window:CreateTab("Servers", 4483362458)
+
+Tab:CreateButton({
+    Name = "Join Server",
+    Callback = function()
+        local TeleportService = game:GetService("TeleportService")
+        local Players = game:GetService("Players")
+
+        local player = Players.LocalPlayer
+
+        Rayfield:Notify({
+            Title = "Server Hub",
+            Content = "Server-Beitritt wird vorbereitet.",
+            Duration = 4
+        })
+
+        -- Roblox erlaubt Client-Scripts nicht,
+        -- beliebige private Server zu erstellen.
+        -- Dafür muss das Spiel einen unterstützten
+        -- Server- oder Teleport-Mechanismus bereitstellen.
+    end
+})
+
+Tab:CreateButton({
+    Name = "Private Server erstellen",
+    Callback = function()
+        Rayfield:Notify({
+            Title = "Private Server",
+            Content = "Die Erstellung muss vom jeweiligen Spiel unterstützt werden.",
+            Duration = 5
+        })
+    end
+})
