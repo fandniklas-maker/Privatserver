@@ -1,93 +1,129 @@
 
+-- Content Creator Panel
+-- LocalScript in StarterPlayerScripts
+
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+
 local Rayfield = loadstring(game:HttpGet(
     "https://sirius.menu/rayfield"
 ))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Creator Panel | V1",
+    Name = "Creator Studio | Panel",
     LoadingTitle = "Content Creator",
-    LoadingSubtitle = "Creator Dashboard",
-    Theme = "Default",
+    LoadingSubtitle = "Build • Record • Create",
     ConfigurationSaving = {
         Enabled = true,
-        FolderName = "CreatorPanel",
+        FolderName = "CreatorStudio",
         FileName = "Settings"
     }
 })
 
--- Dashboard
-local Dashboard = Window:CreateTab("Dashboard", 4483362458)
+-- BUILD TAB
+local BuildTab = Window:CreateTab("Build", 4483362458)
 
-Dashboard:CreateSection("Creator Status")
+BuildTab:CreateSection("F3X Building Tools")
 
-Dashboard:CreateLabel("Content Creator Panel aktiviert")
+BuildTab:CreateButton({
+    Name = "F3X öffnen",
+    Callback = function()
+        -- F3X muss in deinem Spiel installiert sein.
+        -- Das Script öffnet es nur, wenn dein Spiel
+        -- dafür eine eigene Integration bereitstellt.
 
-Dashboard:CreateButton({
-    Name = "Creator Info anzeigen",
+        local event = game:GetService("ReplicatedStorage")
+            :FindFirstChild("OpenF3X")
+
+        if event and event:IsA("BindableEvent") then
+            event:Fire()
+        else
+            Rayfield:Notify({
+                Title = "F3X",
+                Content = "Bitte F3X in Roblox Studio integrieren.",
+                Duration = 5
+            })
+        end
+    end
+})
+
+BuildTab:CreateSection("Studio")
+
+BuildTab:CreateButton({
+    Name = "Bau-Hinweis",
     Callback = function()
         Rayfield:Notify({
-            Title = "Creator Panel",
-            Content = "Willkommen im Creator Dashboard!",
+            Title = "Creator Tip",
+            Content = "Nutze F3X oder die Studio-Bautools.",
             Duration = 4
         })
     end
 })
 
--- Video Tools
-local Video = Window:CreateTab("Video Tools", _cameraIcon or 4483362458)
+-- RECORD TAB
+local RecordTab = Window:CreateTab("Recording", 4483362458)
 
-Video:CreateSection("Aufnahme")
+RecordTab:CreateSection("Windows Bildschirmaufnahme")
 
-Video:CreateToggle({
-    Name = "Aufnahme-Hinweis",
-    CurrentValue = false,
-    Flag = "RecordingHint",
-    Callback = function(Value)
+RecordTab:CreateButton({
+    Name = "Aufnahme starten",
+    Callback = function()
         Rayfield:Notify({
-            Title = "Video Tools",
-            Content = Value and "Aufnahme aktiviert" or "Aufnahme deaktiviert",
-            Duration = 3
+            Title = "Aufnahme starten",
+            Content = "Drücke WIN + ALT + R.",
+            Duration = 5
         })
     end
 })
 
-Video:CreateButton({
-    Name = "Video-Marker setzen",
+RecordTab:CreateButton({
+    Name = "Aufnahme stoppen",
     Callback = function()
         Rayfield:Notify({
-            Title = "Video Marker",
-            Content = "Marker gesetzt!",
-            Duration = 3
+            Title = "Aufnahme stoppen",
+            Content = "Drücke erneut WIN + ALT + R.",
+            Duration = 5
         })
     end
 })
 
--- Creator Settings
-local Settings = Window:CreateTab("Settings", 4483362458)
+RecordTab:CreateSection("Video speichern")
 
-Settings:CreateSection("Einstellungen")
-
-Settings:CreateSlider({
-    Name = "UI Transparenz",
-    Range = {0, 100},
-    Increment = 5,
-    Suffix = "%",
-    CurrentValue = 0,
-    Flag = "UITransparency",
-    Callback = function(Value)
-        print("Transparenz:", Value)
-    end
-})
-
-Settings:CreateButton({
-    Name = "Creator Panel schließen",
+RecordTab:CreateButton({
+    Name = "Speicherort anzeigen",
     Callback = function()
-        Rayfield:Destroy()
+        Rayfield:Notify({
+            Title = "Deine Videos",
+            Content = "Windows: Videos > Captures",
+            Duration = 6
+        })
     end
 })
+
+RecordTab:CreateButton({
+    Name = "Aufnahme-Hilfe",
+    Callback = function()
+        Rayfield:Notify({
+            Title = "Windows Game Bar",
+            Content = "WIN + G öffnet die Aufnahme-Steuerung.",
+            Duration = 5
+        })
+    end
+})
+
+-- INFO TAB
+local InfoTab = Window:CreateTab("Creator Info", 4483362458)
+
+InfoTab:CreateSection("Dein Dashboard")
+
+InfoTab:CreateLabel("Creator: " .. player.DisplayName)
+InfoTab:CreateLabel("Build: F3X Integration erforderlich")
+InfoTab:CreateLabel("Recording: Windows Game Bar")
 
 Rayfield:Notify({
-    Title = "Creator Panel",
-    Content = "Panel erfolgreich geladen!",
+    Title = "Creator Studio",
+    Content = "Dein Panel ist bereit!",
     Duration = 5
 })
